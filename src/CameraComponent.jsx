@@ -1,24 +1,44 @@
-// Import necessary libraries
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, useState } from "react";
 import Webcam from "react-webcam";
 
-const CameraComponent = () => {
-  // Create a reference to the webcam
+const CameraComponent = ({ capturedImage, setCapturedImage }) => {
   const webcamRef = useRef(null);
 
-  // Function to capture a photo
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-    // Do something with the image source, like displaying it or sending it to a server
+    setCapturedImage(imageSrc);
   }, [webcamRef]);
+
+  const resetCamera = useCallback(() => {
+    setCapturedImage(null);
+  }, []);
 
   return (
     <div>
-      {/* Render the webcam component */}
-      <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
-
-      {/* Button to capture a photo */}
-      <button onClick={capture}>Capture photo</button>
+      {capturedImage ? (
+        // Display the mirrored captured image
+        <div>
+          <img
+            src={capturedImage}
+            alt="Captured"
+            style={{ maxWidth: "100%", transform: "scaleX(-1)" }}
+          />
+          <button onClick={resetCamera}>Take Another Photo</button>
+        </div>
+      ) : (
+        // Display the camera feed
+        <div>
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            style={{
+              transform: "scaleX(-1)",
+            }}
+          />
+          <button onClick={capture}>Capture photo</button>
+        </div>
+      )}
     </div>
   );
 };
