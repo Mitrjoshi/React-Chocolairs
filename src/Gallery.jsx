@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import ReactCrop from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
 
 const Gallery = ({ selectedImage, setSelectedImage }) => {
+  const [crop, setCrop] = useState();
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
 
@@ -23,11 +26,13 @@ const Gallery = ({ selectedImage, setSelectedImage }) => {
       {selectedImage && (
         <div>
           <h2>Selected Image</h2>
-          <img
-            src={selectedImage}
-            alt="Selected"
-            style={{ maxWidth: "100%" }}
-          />
+          <ReactCrop crop={crop} onChange={(c) => setCrop(c)}>
+            <img
+              src={selectedImage}
+              alt="Selected"
+              style={{ maxWidth: "100%" }}
+            />
+          </ReactCrop>
         </div>
       )}
     </div>

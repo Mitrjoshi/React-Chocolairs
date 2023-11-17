@@ -18,11 +18,7 @@ const CameraComponent = ({ capturedImage, setCapturedImage }) => {
       {capturedImage ? (
         // Display the mirrored captured image
         <div>
-          <img
-            src={capturedImage}
-            alt="Captured"
-            style={{ maxWidth: "100%", transform: "scaleX(-1)" }}
-          />
+          <img src={capturedImage} />
           <button onClick={resetCamera}>Take Another Photo</button>
         </div>
       ) : (
